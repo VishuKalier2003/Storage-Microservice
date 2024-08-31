@@ -2,7 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 const routerStudentList = require('../storage/controller/studentListController');
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 app.use(express.json());
 app.use(routerStudentList);
