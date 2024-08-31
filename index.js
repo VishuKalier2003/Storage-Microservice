@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
-const routerStudentList = require('../storage/controller/studentListController.js');
+const routerStudentList = require('./controller/studentListController');
 const port = process.env.PORT || 8000;
 
 app.use(express.json());
