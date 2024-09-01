@@ -11,11 +11,12 @@ async function logRequests(type, path, res) {
     try {
         console.log("log request start !!")
         // Using POST on deployed microservice url...
-        await axios.post('https://storage-microservice-rxap.onrender.com/log', logData);
-        console.log("log request end !!");
+        axios.post('https://storage-microservice-rxap.onrender.com/log', logData)
+        .then(() => console.log("log request end !!"))
+        .catch(error => console.error('Error while logging:', error));
     }
     catch(error) {
-        res.status(400).send(error);
+        res.send(error);
     }
 }
 

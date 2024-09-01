@@ -8,7 +8,7 @@ const router = express.Router();
 //! POST    
 router.post('/log', async (req, res) => {
     try{
-        console.log("log start");
+        console.log("logs start");
         const data = req.body;
         // Create the schema...
         const log = new logs({
@@ -20,9 +20,8 @@ router.post('/log', async (req, res) => {
     }
     catch(error) {
         console.log("Error : "+error);
-        res.send(400).send("Error Occured while Logging !!");
+        res.status(400).send("Error Occured while Logging !!");
     }
-    res.sendStatus(200);
 });
 
 //! GET    

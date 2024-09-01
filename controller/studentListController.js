@@ -64,10 +64,10 @@ router.post('/student/add', async (req, res) => {
         studentData.accID = studentHelper.generateAccID(dataBody.accNo);
         await studentData.save();  // Update the student details into the database...
         
-        await logRequests('POST', '/student/add', res);
+        await logRequests('POST', '/student/add');
 
         console.log("main end !!");
-        res.status(200).send("Student data pushed !!"); // Return the saved student data with a 201 status...
+        res.sendStatus(200); // Return the saved student data with a 201 status...
     } catch (error) {
         console.error('Error:', error);
         res.status(500).send('Database connection or saving failed');
