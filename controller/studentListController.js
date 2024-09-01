@@ -5,7 +5,7 @@ const middleware = require('../middleware/studentWare');
 
 const router = express.Router();
 
-router.get('/student/getAll', middleware.adminSender(), async (req, res) => {
+router.get('/student/getAll', middleware.studentSender, async (req, res) => {
     try {
         await connection();
         const dataJSON = await student.find();
@@ -39,7 +39,7 @@ router.post('/student/add', async (req, res) => {
     }
 });
 
-router.delete('/student/clear', middleware.adminSender(), async(req, res) => {
+router.delete('/student/clear', middleware.adminSender, async(req, res) => {
     try {
         await connection();
         const result = await student.deleteMany({});
