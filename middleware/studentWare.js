@@ -1,5 +1,8 @@
 // Middleware to check if the /student/getData is the admin only...
 
+const connect = require('../database/studentList');
+const student = require('../model/student');
+
 function adminSender(req, res, next) {
     // Extracting input data...
     const admin = req.query.name;
@@ -12,6 +15,17 @@ function adminSender(req, res, next) {
         res.status(403).json({error : "Access denied : Invalid Credentials !!"});
 }
 
+async function studentSender(req, res, next) {
+    await connect();
+    const studentId = req.query.studentID;
+    let stu = await student.find({studentID : studentId});
+    if(stu != null) {
+        next();
+        res.status(200).json(stu);
+    }
+    else    res.status(503).send("Not Found !!");
+}
+
 // Importing the Middleware...
 
-module.exports = adminSender;
+module.exports = {adminSender, studentSender};
