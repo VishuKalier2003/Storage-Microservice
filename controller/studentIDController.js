@@ -35,14 +35,53 @@ router.get('/find/password', async(req, res) => {
         if(!student) {
             return res.status(503).json("No such student exists !!");
         }
-        else res.status(200).json({
-            "name" : student.name,
-            "password" : student.password
-        });
+        else {
+            student.count = student.count + 1;
+            // Keep the updated data...
+            await student.save();
+            res.status(200).json({
+                "name" : student.name,
+                "password" : student.password
+            });
+        }
+    }
+    catch(error) {
+        res.status(400).send(error);
+    }
+});
+
+router.get('/find/query', async(req, res) => {
+    try{
+        await connection();
+        const id = req.body?.studentID;
+        if(!id)   return res.status(400).send("No complete credentials send !!");
+        // Asynchronous hence wait it for querying, otherwise will be null...
+        let student = await studentMap.findOne({studentID : id});
+        if(!student) {
+            return res.status(503).json("No such student exists !!");
+        }
+        else {
+            res.status(200).json({
+                "count" : student.count
+            });
+        }
     }
     catch(error) {
         res.status(400).send(error);
     }
 })
+
+async function deleteThreeQueries() {
+    try{
+        await connection();
+        const result = await studentMap.deleteMany({count : 3});
+        console.log(`${result.deletedCount} entries deleted, since they were called 3 times.`)
+    }
+    catch(error) {
+        console.log(error);
+    }
+}
+
+setInterval(deleteThreeQueries, 60000);     // Call every 1 minute...
 
 module.exports = router;

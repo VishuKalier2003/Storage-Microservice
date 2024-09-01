@@ -64,6 +64,7 @@ router.post('/student/add', async (req, res) => {
             name : dataBody.name,
             password : dataBody.password,
             studentID : studentHelper.generateStudentID(dataBody.name),
+            count : 0
         })
         // Generate the studentID...
         studentData.studentID = studentHelper.generateStudentID(dataBody.name);
@@ -86,8 +87,9 @@ router.delete('/student/clear', middleware.adminSender, async(req, res) => {
     try {
         await connection();
         const result = await student.deleteMany({});        // Clear all entries...
+        const result1 = await studentMap.deleteMany({});        // Clear the student database as well...
         await logRequests('DELETE', '/student/clear', res);
-        res.status(200).send(`${result.deletedCount} students cleared from database !!`);
+        res.status(200).send(`${result.deletedCount} students and ${result1.deletedCount} passwords cleared from database !!`);
     }
     catch(error) {
         console.log("Error :"+error);

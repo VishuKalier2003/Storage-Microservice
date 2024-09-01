@@ -6,7 +6,8 @@ const Mongoose = require('mongoose');
 const studentIDSchema = new Mongoose.Schema({
     name : {type : String, required : true},
     studentID : {type : String, required : true},
-    password : {type : String, required : true}
+    password : {type : String, required : true},
+    count : {type : Number, required : true}
 });
 
 // Mapping of the studentMap...
