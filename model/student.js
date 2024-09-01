@@ -10,6 +10,7 @@ const StudentSchema = new Mongoose.Schema({
     accID : {type : String},
     monCredit : {type : Number},
     monDebit : {type : Number},
+    query : {type : Number, required : false}
 });
 
 // Mongoose Schema imported...

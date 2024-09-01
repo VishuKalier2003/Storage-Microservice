@@ -9,11 +9,13 @@ async function logRequests(type, path, res) {
         time : new Date().toISOString()
     }
     try {
+        console.log("log request start !!")
         // Using POST on deployed microservice url...
         await axios.post('https://storage-microservice-rxap.onrender.com/log', logData);
+        console.log("log request end !!");
     }
     catch(error) {
-        res.send(400).send(error);
+        res.status(400).send(error);
     }
 }
 

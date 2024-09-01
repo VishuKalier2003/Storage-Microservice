@@ -45,6 +45,7 @@ router.get('/student/getAll', middleware.adminSender, async(req, res) => {
 //! POST    
 router.post('/student/add', async (req, res) => {
     try {
+        console.log("main start !!");
         await connection(); // Ensure the connection is awaited...
         const dataBody = req.body;
         const studentData = new student({
@@ -54,14 +55,18 @@ router.post('/student/add', async (req, res) => {
             studentID : dataBody.studentID | undefined,
             accID : dataBody.accID | undefined,
             monCredit : dataBody.monCredit | undefined,
-            monDebit : dataBody.monDebit | undefined
+            monDebit : dataBody.monDebit | undefined,
+            query : dataBody.query | undefined
         });
         // Generate the studentID...
         studentData.studentID = studentHelper.generateStudentID(dataBody.name);
         // Generate the accountID...
         studentData.accID = studentHelper.generateAccID(dataBody.accNo);
         await studentData.save();  // Update the student details into the database...
+        
         await logRequests('POST', '/student/add', res);
+
+        console.log("main end !!");
         res.status(200).send("Student data pushed !!"); // Return the saved student data with a 201 status...
     } catch (error) {
         console.error('Error:', error);
@@ -81,7 +86,7 @@ router.delete('/student/clear', middleware.adminSender, async(req, res) => {
         console.log("Error :"+error);
         res.status(500).send("Database Error !!");
     }
-})
+});
 
 // Exporting all the routes...
 module.exports = router;

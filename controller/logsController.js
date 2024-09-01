@@ -8,6 +8,7 @@ const router = express.Router();
 //! POST    
 router.post('/log', async (req, res) => {
     try{
+        console.log("log start");
         const data = req.body;
         // Create the schema...
         const log = new logs({
