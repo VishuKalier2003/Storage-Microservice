@@ -4,6 +4,7 @@ const Mongoose = require("mongoose");
 
 const StudentSchema = new Mongoose.Schema({
     name : {type : String, required : true},
+    password : {type : String, required : true},
     studentID : {type : String},
     accNo : {type : String, required : true},
     age : {type : Number, required : true},

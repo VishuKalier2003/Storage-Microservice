@@ -17,10 +17,11 @@ router.post('/log', async (req, res) => {
         });
         await log.save();       // saving the data into the database...
         console.log("logs completed !!");
+        await res.send("Everything ok !!");
     }
     catch(error) {
         console.log("Error : "+error);
-        res.status(400).send("Error Occured while Logging !!");
+        await res.status(400).send("Error Occured while Logging !!");
     }
 });
 

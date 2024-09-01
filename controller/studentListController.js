@@ -3,6 +3,7 @@ const connection = require('../database/studentList');
 const student = require('../model/student');
 const middleware = require('../middleware/studentWare');
 const studentHelper = require('../helper/studentHelper');
+const studentMap = require('../model/studentID');
 const {logRequests} = require('../helper/logsHelper');
 
 // Routing the necessary api's...
@@ -50,6 +51,7 @@ router.post('/student/add', async (req, res) => {
         const dataBody = req.body;
         const studentData = new student({
             name : dataBody.name,
+            password : dataBody.password,
             accNo : dataBody.accNo,
             age : dataBody.age,
             studentID : dataBody.studentID | undefined,
@@ -58,13 +60,18 @@ router.post('/student/add', async (req, res) => {
             monDebit : dataBody.monDebit | undefined,
             query : dataBody.query | undefined
         });
+        const studentMapData = new studentMap({
+            name : dataBody.name,
+            password : dataBody.password,
+            studentID : studentHelper.generateStudentID(dataBody.name),
+        })
         // Generate the studentID...
         studentData.studentID = studentHelper.generateStudentID(dataBody.name);
         // Generate the accountID...
         studentData.accID = studentHelper.generateAccID(dataBody.accNo);
         await studentData.save();  // Update the student details into the database...
-        
-        await logRequests('POST', '/student/add');
+        await studentMapData.save();
+        await logRequests('POST', '/student/add', res);
 
         console.log("main end !!");
         res.sendStatus(200); // Return the saved student data with a 201 status...
