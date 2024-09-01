@@ -5,15 +5,16 @@ const connection = require('../database/studentList');
 
 const router = express.Router();
 
+//! POST    
 router.post('/log', async (req, res) => {
     try{
-        console.log("Logs called");
         const data = req.body;
+        // Create the schema...
         const log = new logs({
             log : `${data.type} request from ${data.path}`,
             time : data.time
         });
-        const logger = await log.save();
+        await log.save();       // saving the data into the database...
         console.log("logs completed !!");
     }
     catch(error) {
@@ -23,9 +24,11 @@ router.post('/log', async (req, res) => {
     res.sendStatus(200);
 });
 
+//! GET    
 router.get('/log/getAll', middleware.adminSender, async(req, res) => {
     try {
         await connection();
+        // Getting all logs...
         const data = await logs.find();
         res.send(data);
     }
@@ -35,4 +38,5 @@ router.get('/log/getAll', middleware.adminSender, async(req, res) => {
     }
 })
 
+// exporting the routes...
 module.exports = router;

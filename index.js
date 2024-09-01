@@ -6,7 +6,9 @@ const routerLogs = require('./controller/logsController');
 const port = process.env.PORT || 8000;
 
 app.use(express.json());
+// student Controller routes...
 app.use(routerStudentList);
+// log Controller routes...
 app.use(routerLogs);
 
 app.get('/', async(req, res) => {
