@@ -1,7 +1,6 @@
 const express = require('express');
 const Log = require('../model/logs');  // Updated import for the Log model
 const middleware = require('../middleware/studentWare');  // Middleware for authorization
-const LogTrash = require('../model/logsTrash');
 const LogsTrash = require('../model/logsTrash');
 
 const router = express.Router();
