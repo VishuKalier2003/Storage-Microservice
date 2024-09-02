@@ -1,6 +1,4 @@
-const connect = require('../database/studentList');
 const student = require('../model/student');
-const studentMap = require('../model/studentID');
 
 function adminSender(req, res, next) {
     // Ensure that req.query exists and contains the necessary properties...
@@ -25,8 +23,6 @@ function adminSender(req, res, next) {
 }
 
 async function studentSender(req, res, next) {
-    await connect();        // Connect to the Database...
-
     // Ensure that req.query exists and contains the necessary properties...
     const studentId = req.body.studentID;
     if (!studentId)     // If the studentID is not present...

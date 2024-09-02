@@ -1,6 +1,8 @@
 const express = require('express');
 const Log = require('../model/logs');  // Updated import for the Log model
 const middleware = require('../middleware/studentWare');  // Middleware for authorization
+const LogTrash = require('../model/logsTrash');
+const LogsTrash = require('../model/logsTrash');
 
 const router = express.Router();
 
@@ -39,8 +41,10 @@ router.get('/log/getAll', middleware.adminSender, async (req, res) => {
 
 router.delete('/log/clear', middleware.adminSender, async (req, res) => {
     try {
-        const data = await Log.deleteMany({});
-        res.send(`${data.deletedCount} logs sent to bin !!`);
+        const data = await Log.find();
+        await LogsTrash.insertMany(data);
+        const deleted = await Log.deleteMany({});
+        res.send(`${deleted.deletedCount} logs sent to trash !!`);
     }
     catch(error) {
         res.status(400).send("Error while deleting : "+error);
