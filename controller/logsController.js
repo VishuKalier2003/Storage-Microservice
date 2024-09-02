@@ -1,43 +1,50 @@
 const express = require('express');
-const logs = require('../model/logs');
-const middleware = require('../middleware/studentWare');
-const connection = require('../database/studentList');
+const Log = require('../model/logs');  // Updated import for the Log model
+const middleware = require('../middleware/studentWare');  // Middleware for authorization
 
 const router = express.Router();
 
-//! POST    
+// POST endpoint to create a log entry
 router.post('/log', async (req, res) => {
-    try{
+    try {
         console.log("logs start");
         const data = req.body;
-        // Create the schema...
-        const log = new logs({
-            log : `${data.type} request from ${data.path}`,
-            time : data.time
+        
+        // Create the log entry
+        const log = new Log({
+            log: `${data.type} request from ${data.path}`,
+            time: data.time
         });
-        await log.save();       // saving the data into the database...
+        
+        await log.save();  // Save the log entry to the database
         console.log("logs completed !!");
-        await res.send("Everything ok !!");
-    }
-    catch(error) {
-        console.log("Error : "+error);
-        await res.status(400).send("Error Occured while Logging !!");
+        res.send("Everything ok !!");
+    } catch (error) {
+        console.log("Error: " + error);
+        res.status(400).send("Error Occurred while Logging !!");
     }
 });
 
-//! GET    
-router.get('/log/getAll', middleware.adminSender, async(req, res) => {
+// GET endpoint to retrieve all log entries (admin access only)
+router.get('/log/getAll', middleware.adminSender, async (req, res) => {
     try {
-        await connection();
-        // Getting all logs...
-        const data = await logs.find();
+        // Get all logs
+        const data = await Log.find();
         res.send(data);
+    } catch (error) {
+        console.log("Error: " + error);
+        res.status(400).send("Error retrieving logs");
+    }
+});
+
+router.delete('/log/clear', middleware.adminSender, async (req, res) => {
+    try {
+        const data = await Log.deleteMany({});
+        res.send(`${data.deletedCount} logs sent to bin !!`);
     }
     catch(error) {
-        console.log(error);
-        res.sendStatus(400);
+        res.status(400).send("Error while deleting : "+error);
     }
 })
 
-// exporting the routes...
 module.exports = router;

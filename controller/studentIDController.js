@@ -1,12 +1,12 @@
 const express = require('express');
-const connection = require('../database/studentList');
 const studentMap = require('../model/studentID');
+const student = require('../model/student');
+const studentTrash = require('../model/studentTrash');
 
 const router = express.Router();
 
 router.get('/find/id', async(req, res) => {
     try {
-        await connection();
         const { name, password } = req.body; // Destructuring the request body
         if (!name || !password) {
             return res.status(400).send("Incomplete credentials sent!!");
@@ -27,7 +27,6 @@ router.get('/find/id', async(req, res) => {
 
 router.get('/find/password', async(req, res) => {
     try{
-        await connection();
         const id = req.body?.studentID;
         if(!id)   return res.status(400).send("No complete credentials send !!");
         // Asynchronous hence wait it for querying, otherwise will be null...
@@ -52,7 +51,6 @@ router.get('/find/password', async(req, res) => {
 
 router.get('/find/query', async(req, res) => {
     try{
-        await connection();
         const id = req.body?.studentID;
         if(!id)   return res.status(400).send("No complete credentials send !!");
         // Asynchronous hence wait it for querying, otherwise will be null...
@@ -62,6 +60,7 @@ router.get('/find/query', async(req, res) => {
         }
         else {
             res.status(200).json({
+                "studentID" : student.studentID,
                 "count" : student.count
             });
         }
@@ -72,16 +71,40 @@ router.get('/find/query', async(req, res) => {
 })
 
 async function deleteThreeQueries() {
-    try{
-        await connection();
-        const result = await studentMap.deleteMany({count : 3});
-        console.log(`${result.deletedCount} entries deleted, since they were called 3 times.`)
-    }
-    catch(error) {
-        console.log(error);
+    try {
+        console.log("Delete Three count function called !!");
+        
+        // Find all students with count > 3
+        const found = await studentMap.find({ count: { $gt: 3 } });
+        
+        if (found.length > 0) {
+            // Delete entries from studentMap where count > 3
+            await studentMap.deleteMany({ count: { $gt: 3 } });
+            
+            // Iterate through each found student
+            for (let i = 0; i < found.length; i++) {
+                const studentDoc = found[i];
+                const id = studentDoc.studentID; // Access studentID from each document
+                
+                // Find the student document in the student collection
+                const stu = await student.findOne({ studentID: id });
+                
+                if (stu) {
+                    // Insert the student document into the trash collection
+                    await studentTrash.create(stu.toObject()); // Convert to plain JavaScript object
+                    // Delete the student document from the student collection
+                    await student.deleteOne({ studentID: id });
+                }
+            }
+        }
+        
+        console.log("Entries moved to trash:", found);
+    } catch (error) {
+        console.log("Error:", error);
     }
 }
 
-setInterval(deleteThreeQueries, 60000);     // Call every 1 minute...
+setInterval(deleteThreeQueries, 60000); // Call every 1 minute...
+
 
 module.exports = router;

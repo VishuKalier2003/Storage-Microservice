@@ -1,6 +1,7 @@
 // import mongoose...
 
 const Mongoose = require('mongoose');
+const studentConnection = require('../database/studentList');
 
 // Define the log Schema...
 
@@ -11,4 +12,5 @@ const logSchema = new Mongoose.Schema({
 
 // Document named as log(s)...
 
-module.exports = Mongoose.model("log", logSchema);
+const Logss = studentConnection.model("log", logSchema);
+module.exports = Logss;

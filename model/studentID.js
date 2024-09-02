@@ -1,14 +1,12 @@
-// Mongoose model...
-const Mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const studentListConnection = require('../database/studentList');
 
-// Student to StudentID mapping...
-
-const studentIDSchema = new Mongoose.Schema({
-    name : {type : String, required : true},
-    studentID : {type : String, required : true},
-    password : {type : String, required : true},
-    count : {type : Number, required : true}
+const studentSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    password: { type: String, required: true },
+    studentID: { type: String },
+    count: { type: Number, default: 0 }
 });
 
-// Mapping of the studentMap...
-module.exports = Mongoose.model('studentMap', studentIDSchema);
+const StudentMap = studentListConnection.model('StudentMap', studentSchema);
+module.exports = StudentMap;
