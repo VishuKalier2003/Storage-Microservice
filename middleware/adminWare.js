@@ -1,3 +1,5 @@
+const adminQueue = require("../model/adminQueue");
+
 function adminSender(req, res, next) {
     // Ensure that req.query exists and contains the necessary properties...
     const admin = req.body?.auth?.name;
@@ -20,4 +22,12 @@ function adminSender(req, res, next) {
     }
 }
 
-module.exports = {adminSender};
+async function adminVoter(req, res, next) {
+    const name = req.body?.auth?.name;
+    if(!name)   return res.status(400).json({"error" : "Missing Query Parameters !!"});
+    const adminName = await adminQueue.findOne({name : name});
+    if(!adminName)  return res.status(400).json({"error" : "bad request !!"});
+    else next();
+}
+
+module.exports = {adminSender, adminVoter};
