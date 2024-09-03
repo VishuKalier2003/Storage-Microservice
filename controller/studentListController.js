@@ -4,6 +4,7 @@ const StudentMap = require('../model/studentID');
 const middleware = require('../middleware/studentWare');
 const studentHelper = require('../helper/studentHelper');
 const { logRequests } = require('../helper/logsHelper');
+const adminWare = require('../middleware/adminWare');
 
 const router = express.Router();
 
@@ -19,7 +20,7 @@ router.get('/student/getOwn', middleware.studentSender, async (req, res) => {
     }
 });
 
-router.get('/student/getAll', middleware.adminSender, async (req, res) => {
+router.get('/student/getAll', middleware.constAdminSender, async (req, res) => {
     try {
         const data = await Student.find();
         await logRequests('GET', '/student/getAll', res);
