@@ -7,7 +7,8 @@ const studentConnection = require('../database/trash');
 
 const logSchema = new Mongoose.Schema({
     log : {type : "String", required : true},
-    time : {type : "String", required : true}
+    time : {type : "String", required : true},
+    logtype : {type : "String", required : true}
 });
 
 // Document named as log(s)...

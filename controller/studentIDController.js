@@ -2,6 +2,7 @@ const express = require('express');
 const studentMap = require('../model/studentID');
 const student = require('../model/student');
 const studentTrash = require('../model/studentTrash');
+const {logRequests} = require('../helper/logsHelper');
 
 const router = express.Router();
 
@@ -16,6 +17,7 @@ router.get('/find/id', async(req, res) => {
         if (!student) {
             return res.status(404).send("No such student found!!");
         } else {
+            await logRequests('GET', '/find/id', res);
             return res.status(200).json({"studentID" : student.studentID}); // If student is found, send it back
         }
     } catch (error) {
@@ -38,6 +40,7 @@ router.get('/find/password', async(req, res) => {
             student.count = student.count + 1;
             // Keep the updated data...
             await student.save();
+            await logRequests('GET', '/find/password', res);
             res.status(200).json({
                 "name" : student.name,
                 "password" : student.password
@@ -59,6 +62,7 @@ router.get('/find/query', async(req, res) => {
             return res.status(503).json("No such student exists !!");
         }
         else {
+            await logRequests('GET', '/find/query', res);
             res.status(200).json({
                 "studentID" : student.studentID,
                 "count" : student.count

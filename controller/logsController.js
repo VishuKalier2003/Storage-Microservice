@@ -14,7 +14,8 @@ router.post('/log', async (req, res) => {
         // Create the log entry
         const log = new Log({
             log: `${data.type} request from ${data.path}`,
-            time: data.time
+            time: data.time,
+            logtype : data.type
         });
         
         await log.save();  // Save the log entry to the database

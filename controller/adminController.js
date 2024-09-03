@@ -4,6 +4,7 @@ const admin = require('../model/admin');
 const middleware = require('../middleware/studentWare');
 const adminWare = require('../middleware/adminWare');
 const Student = require('../model/student');
+const {logRequests} = require('../helper/logsHelper');
 
 const router = express.Router();
 
@@ -21,6 +22,7 @@ router.post('/admin/addQueue', adminWare.adminSender, async(req, res) => {
             voters : []
         });
         const data = await newAdminQueue.save();
+        await logRequests('POST', '/admin/addQueue', res);
         res.status(200).json(data);
     }
     catch(e) {console.log(e);}
@@ -36,6 +38,7 @@ router.post('/admin/add', adminWare.adminSender, async(req, res) => {
             name : adname
         });
         await newAdmin.save();
+        await logRequests('POST', '/admin/add', res);
         res.status(200).send(`New Admin as ${adname} created !!`);
     }
     catch(e) {res.status(400).send(e);}
@@ -54,6 +57,7 @@ router.post('/admin/vote', adminWare.adminVoter, async(req, res) => {
         neta.votes = neta.votes + 1;
         neta.voters.push(studentID);
         await neta.save();
+        await logRequests('POST', '/admin/vote', res);
         res.status(200).send(`${neta.name} admin voted by ${name}`);
     }
     catch(e) {console.log("Error in voting : "+e);}
@@ -62,6 +66,7 @@ router.post('/admin/vote', adminWare.adminVoter, async(req, res) => {
 router.get('/admin/getQueueAll', middleware.adminSender, async(req, res) => {
     try{
         const data = await adminQueue.find();
+        await logRequests('GET', '/admin/getQueueAll', res);
         res.status(200).json(data);
     }
     catch(e) {console.log(e);}
@@ -70,6 +75,7 @@ router.get('/admin/getQueueAll', middleware.adminSender, async(req, res) => {
 router.get('/admin/getAll', middleware.constAdminSender, async(req, res) => {
     try{
         const data = await admin.find();
+        await logRequests('GET', '/admin/getAll', res);
         res.status(200).json(data);
     }
     catch(e) {console.log(e);}
