@@ -8,5 +8,5 @@ const storeSchema = new Mongoose.Schema({
     cost : {type : []}
 });
 
-const stores = Connection.storeConnection.model('productData', storeSchema);
+const stores = Connection.storeConnection.model('stores', storeSchema);
 module.exports = stores;

@@ -2,11 +2,11 @@ const Mongoose = require('mongoose');
 
 const Connection = require('../database/transaction');
 
-const storeSchema = new Mongoose.Schema({
-    product : {type : "String", required : true},
-    totalCost : {type : "Number", required : true},
-    cost : {type : []}
+const userSchema = new Mongoose.Schema({
+    name : {type : String, required : true},
+    userID : {type : String, required : true},
+    studentID : {type : String, required : true}
 });
 
-const stores = Connection.storeConnection.model('productData', storeSchema);
+const stores = Connection.storeConnection.model('productData', userSchema);
 module.exports = stores;

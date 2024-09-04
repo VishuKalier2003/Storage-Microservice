@@ -6,6 +6,7 @@ const routerStudentID = require('./controller/studentIDController');
 const routerAdmin = require('./controller/adminController');
 const searchEngine = require('./tool/searchEngine');
 const routerProduct = require('./controller/productController');
+const routerTransaction = require('./controller/transactionController');
 const port = process.env.PORT || 8000;
 
 app.use(express.json());
@@ -16,6 +17,7 @@ app.use(routerLogs);
 app.use(routerStudentID);
 app.use(routerAdmin);
 app.use(routerProduct);
+app.use(routerTransaction);
 // Search Engine route...
 app.use(searchEngine);
 

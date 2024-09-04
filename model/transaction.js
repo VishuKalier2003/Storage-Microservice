@@ -4,7 +4,7 @@ const Connection = require('../database/transaction');
 
 const storeSchema = new Mongoose.Schema({
     transactionID : {type : "String", required : true},
-    transactionType : {type : "Number", required : true},
+    transactionType : {type : "String", required : true},
     amount : {type : "Number", required : true},
     from : {type : "String", required : true},
     to : {type : "String", required : true},
