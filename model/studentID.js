@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const studentListConnection = require('../database/studentList');
+const Connection = require('../database/storage');
 
 const studentSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -8,5 +8,5 @@ const studentSchema = new mongoose.Schema({
     count: { type: Number, default: 0 }
 });
 
-const StudentMap = studentListConnection.model('StudentMap', studentSchema);
+const StudentMap = Connection.studentListConnection.model('StudentMap', studentSchema);
 module.exports = StudentMap;

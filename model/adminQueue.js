@@ -1,5 +1,5 @@
 const Mongoose = require('mongoose');
-const adminDB = require('../database/admin');
+const adminDB = require('../database/storage');
 
 const adminQueueSchema = new Mongoose.Schema({
     name : {type : String, required : true},
@@ -8,5 +8,5 @@ const adminQueueSchema = new Mongoose.Schema({
     voters : {type : []}
 });
 
-const adminQueues = adminDB.model('adminQueue', adminQueueSchema);
+const adminQueues = adminDB.adminConnection.model('adminQueue', adminQueueSchema);
 module.exports = adminQueues;

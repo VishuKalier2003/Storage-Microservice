@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const studentListConnection = require('../database/studentList');
+const Connection = require('../database/storage');
 
 const studentSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -12,5 +12,5 @@ const studentSchema = new mongoose.Schema({
     monDebit: { type: Number }
 });
 
-const Student = studentListConnection.model('Student', studentSchema);
+const Student = Connection.studentListConnection.model('Student', studentSchema);
 module.exports = Student;

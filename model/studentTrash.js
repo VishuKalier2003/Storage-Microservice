@@ -1,6 +1,6 @@
 const Mongoose = require("mongoose");
 
-const trash = require('../database/trash');
+const trash = require('../database/storage');
 
 // Defining the student Schema for the database...
 
@@ -17,5 +17,5 @@ const StudentTrashSchema = new Mongoose.Schema({
 
 // Mongoose Schema imported...
 
-const trashStudent = trash.model('studentbin', StudentTrashSchema);
+const trashStudent = trash.trashConnection.model('studentbin', StudentTrashSchema);
 module.exports = trashStudent;

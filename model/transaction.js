@@ -1,6 +1,6 @@
 const Mongoose = require('mongoose');
 
-const storeConnection = require('../database/stores');
+const Connection = require('../database/transaction');
 
 const storeSchema = new Mongoose.Schema({
     transactionID : {type : "String", required : true},
@@ -11,5 +11,5 @@ const storeSchema = new Mongoose.Schema({
     time : {type : "Date", required : true}
 });
 
-const stores = storeConnection.model('stores', storeSchema);
+const stores = Connection.historyConnection.model('history', storeSchema);
 module.exports = stores;

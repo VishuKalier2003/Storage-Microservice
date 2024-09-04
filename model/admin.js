@@ -1,10 +1,10 @@
 const Mongoose = require('mongoose');
 
-const adminConnect = require('../database/admin');
+const Connect = require('../database/storage');
 
 const adminSchema = new Mongoose.Schema({
     name : {type : String, required : true}
 });
 
-const adminss = adminConnect.model('admins', adminSchema);
+const adminss = Connect.adminConnection.model('admins', adminSchema);
 module.exports = adminss;
