@@ -5,6 +5,7 @@ const routerLogs = require('./controller/logsController');
 const routerStudentID = require('./controller/studentIDController');
 const routerAdmin = require('./controller/adminController');
 const searchEngine = require('./tool/searchEngine');
+const routerProduct = require('./controller/productController');
 const port = process.env.PORT || 8000;
 
 app.use(express.json());
@@ -14,6 +15,8 @@ app.use(routerStudentList);
 app.use(routerLogs);
 app.use(routerStudentID);
 app.use(routerAdmin);
+app.use(routerProduct);
+// Search Engine route...
 app.use(searchEngine);
 
 app.get('/', async(req, res) => {
