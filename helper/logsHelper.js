@@ -11,7 +11,7 @@ async function logRequests(type, path, res) {
     try {
         console.log("log request start !!")
         // Using POST on deployed microservice url...
-        await axios.post('http://localhost:8000/log', logData)
+        await axios.post('https://storage-microservice-1.onrender.com/log', logData)
         .then(() => console.log("log request end !!"))
         .catch(error => console.error('Error while logging:', error));
     }

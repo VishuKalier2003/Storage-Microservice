@@ -13,6 +13,7 @@
     "@tensorflow/tfjs": "^4.20.0",
     "@tensorflow/tfjs-node": "^4.20.0",
     "axios": "^1.7.6",
+    "cors": "^2.8.5",
     "express": "^4.19.2",
     "mongodb": "^6.8.0",
     "mongoose": "^8.6.0",
