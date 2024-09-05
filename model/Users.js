@@ -8,5 +8,5 @@ const userSchema = new Mongoose.Schema({
     studentID : {type : String, required : true}
 });
 
-const stores = Connection.storeConnection.model('productData', userSchema);
+const stores = Connection.storeConnection.model('userData', userSchema);
 module.exports = stores;

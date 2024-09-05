@@ -3,6 +3,7 @@ const User = require('../model/Users');
 const Transaction = require('../model/transaction');
 const generator = require('../helper/generatorID');
 const adminWare = require('../middleware/studentWare');
+const {logRequests} = require('../helper/logsHelper');
 
 const router = express.Router();
 
@@ -23,7 +24,8 @@ router.post('/transaction/made', async(req, res) => {
         time : new Date()
     });
     await newTransaction.save();
-    res.status(200).send(`Transaction with the ${newTransaction.transactionID} ID complete !!`);
+    await logRequests('POST', '/transaction/made', res);
+    return res.status(200).send(`Transaction with the ${newTransaction.transactionID} ID complete !!`);
     } catch(e) {
         res.status(400).send(e);
     }
@@ -32,6 +34,7 @@ router.post('/transaction/made', async(req, res) => {
 router.get('/transaction/getAll', adminWare.constAdminSender, async(req, res) => {
     try {
     const data = await Transaction.find({});
+    await logRequests('GET', '/transaction/getAll', res);
     res.status(200).json(data);
     } catch(e) {
         res.status(400).send(e);
@@ -46,6 +49,7 @@ router.post('/createUserID', async(req, res) => {
         studentID : req.body.studentID
     });
     await newUser.save();
+    await logRequests('POST', '/createUserID', res);
     return res.sendStatus(200);
     } catch(e) {
         return res.status(400).send(e);

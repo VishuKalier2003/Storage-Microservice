@@ -2,9 +2,10 @@ const express = require('express');
 const Student = require('../model/student');
 const StudentMap = require('../model/studentID');
 const middleware = require('../middleware/studentWare');
-const studentHelper = require('../helper/studentHelper');
 const { logRequests } = require('../helper/logsHelper');
 const adminWare = require('../middleware/adminWare');
+const { default: axios } = require('axios');
+const generator = require('../helper/generatorID');
 
 const router = express.Router();
 
@@ -39,8 +40,8 @@ router.post('/student/add', async (req, res) => {
             password: dataBody.password,
             accNo: dataBody.accNo,
             age: dataBody.age,
-            studentID: studentHelper.generateStudentID(dataBody.name) || undefined,
-            accID: studentHelper.generateAccID(dataBody.accNo) || undefined,
+            studentID: generator.generateStudentID(dataBody.name) || undefined,
+            accID: generator.generateAccID(dataBody.accNo) || undefined,
             monCredit: dataBody.monCredit || undefined,
             monDebit: dataBody.monDebit || undefined,
         });
@@ -48,8 +49,13 @@ router.post('/student/add', async (req, res) => {
         const studentMapData = new StudentMap({
             name: dataBody.name,
             password: dataBody.password,
-            studentID: studentHelper.generateStudentID(dataBody.name),
+            studentID: generator.generateStudentID(dataBody.name),
             count: 0
+        });
+
+        await axios.post('http://localhost:8000/createUserId', {
+            name : studentData.name,
+            studentID : studentData.studentID
         });
 
         await studentData.save();
