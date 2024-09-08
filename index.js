@@ -12,29 +12,30 @@ const port = process.env.PORT || 8000;
 
 app.use(express.json());
 
+// Allow requests from specified origins
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://front-end-microservice-student-purchase.vercel.app'], // Allow requests from this origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
-    credentials: true, // Allow credentials (e.g., cookies, authorization headers)
-    allowedHeaders: ['Content-Type', 'Authorization'], // Allow custom headers
-  }));
-// student Controller routes...
+  origin: ['http://localhost:3000', 'https://front-end-microservice-student-purchase.vercel.app'], // Allow specific origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow these HTTP methods
+  credentials: true, // Allow credentials (e.g., cookies, authorization headers)
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow custom headers
+}));
+
+// Handle preflight requests globally
+app.options('*', cors()); // This handles preflight requests for all routes
+
+// Routes definitions
 app.use(routerStudentList);
-// log Controller routes...
 app.use(routerLogs);
 app.use(routerStudentID);
 app.use(routerAdmin);
 app.use(routerProduct);
 app.use(routerTransaction);
-// Search Engine route...
 app.use(searchEngine);
 
-app.options('/student/add', cors()); // Handle OPTIONS request
-app.options('/student/getAll', cors());
-
+// Health check route
 app.get('/', async(req, res) => {
     res.status(200).send("Entered the Storage Microservice !!");
-})
+});
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
