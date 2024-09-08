@@ -13,7 +13,7 @@ const port = process.env.PORT || 8000;
 app.use(express.json());
 
 app.use(cors({
-    origin: 'http://localhost:3000', // Allow requests from this origin
+    origin: ['http://localhost:3000', 'https://front-end-microservice-student-purchase.vercel.app'], // Allow requests from this origin
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
     credentials: true, // Allow credentials (e.g., cookies, authorization headers)
     allowedHeaders: ['Content-Type', 'Authorization'], // Allow custom headers
@@ -30,6 +30,7 @@ app.use(routerTransaction);
 app.use(searchEngine);
 
 app.options('/student/add', cors()); // Handle OPTIONS request
+app.options('/student/getAll', cors());
 
 app.get('/', async(req, res) => {
     res.status(200).send("Entered the Storage Microservice !!");
