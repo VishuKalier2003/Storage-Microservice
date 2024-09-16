@@ -14,17 +14,17 @@ app.use(express.json());
 
 // Allow requests from specified origins
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://front-end-microservice-student-purchase.vercel.app'], // Allow specific origins
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow these HTTP methods
-  credentials: true, // Allow credentials (e.g., cookies, authorization headers)
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow custom headers
+  origin: ['http://localhost:3000', 'https://front-end-microservice-student-purchase.vercel.app'], // Add all allowed origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Specify allowed methods
+  credentials: true, // Enable cookies and authorization headers across origins
+  allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
 }));
 
 // Handle preflight requests globally
 app.options('*', cors()); // This handles preflight requests for all routes
 
 // Routes definitions
-app.use(routerStudentList);
+app.use('/student', routerStudentList);
 app.use(routerLogs);
 app.use(routerStudentID);
 app.use(routerAdmin);
