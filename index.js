@@ -14,7 +14,7 @@ app.use(express.json());
 
 // Allow requests from specified origins
 app.use(cors({
-  origin: '*', // This allows all origins to access your API
+  origin: 'http://localhost:3000', // This allows all origins to access your API
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow all HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Allow all headers
 }));
