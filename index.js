@@ -12,16 +12,6 @@ const port = process.env.PORT || 8000;
 
 app.use(express.json());
 
-// Allow requests from specified origins
-app.use(cors({
-  origin: 'http://localhost:3000', // This allows all origins to access your API
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow all HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow all headers
-}));
-
-// Handle preflight requests globally
-app.options('*', cors()); // This handles preflight requests for all routes
-
 // Routes definitions
 app.use(routerStudentList);
 app.use(routerLogs);
