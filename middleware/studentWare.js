@@ -2,21 +2,22 @@ const student = require('../model/student');
 const admin = require('../model/admin');
 
 function adminSender(req, res, next) {
-    const admin = req.query?.name;
-    const id = req.query?.id;
+    const admin = req.query?.name; // Extract 'name' from query params
+    const id = req.query?.id;      // Extract 'id' from query params
   
     // Check if the required query parameters are present
     if (!admin || !id) {
-      return res.status(400).json({ error: "Missing query parameters" });
+      return res.status(400).json({ error: "Missing query parameters" }); // 400 Bad Request if missing
     }
   
     // Checking for valid admin credentials
     if ((admin === "Vishu Kalier" && id === "18082003") || (admin === "Durgesh Singh" && id === "24112001")) {
-      next(); // Credentials are valid, move to the next middleware or route handler
+      next(); // Valid credentials, proceed
     } else {
-      return res.status(403).json({ error: "Access denied: Invalid Credentials" });
+      return res.status(403).json({ error: "Access denied: Invalid Credentials" }); // 403 Forbidden if invalid
     }
-  }
+}
+
   
 
 function adminSenderAuth(req, res, next) {
@@ -55,7 +56,7 @@ async function studentSender(req, res, next) {
 }
 
 async function constAdminSender(req, res, next) {
-    const name = req.body.name;
+    const name = req.query.name;
     const found = await admin.findOne({name : name});
     if(!found)
         return res.status(400).send("Not found as Admin !!");

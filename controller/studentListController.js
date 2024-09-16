@@ -23,14 +23,15 @@ router.get('/student/getOwn', middleware.studentSender, async (req, res) => {
 
 router.get('/student/getAll', middleware.constAdminSender, async (req, res) => {
     try {
-        const data = await Student.find();
-        await logRequests('GET', '/student/getAll', res);
-        res.send(data);
+        const data = await Student.find(); // Fetching student data
+        await logRequests('GET', '/student/getAll', res); // Logging request
+        res.send(data); // Sending back the student data
     } catch (error) {
         console.log(error);
         res.status(500).send("Database connection failed !!");
     }
 });
+
 
 router.post('/student/add', async (req, res) => {
     try {
