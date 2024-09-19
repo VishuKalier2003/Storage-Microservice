@@ -8,7 +8,8 @@ const router = express.Router();
 
 router.get('/find/id', async(req, res) => {
     try {
-        const { name, password } = req.body; // Destructuring the request body
+        const name = req.query?.name;
+        const password = req.query?.password;
         if (!name || !password) {
             return res.status(400).send("Incomplete credentials sent!!");
         }

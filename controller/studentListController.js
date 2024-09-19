@@ -3,7 +3,6 @@ const Student = require('../model/student');
 const StudentMap = require('../model/studentID');
 const middleware = require('../middleware/studentWare');
 const { logRequests } = require('../helper/logsHelper');
-const adminWare = require('../middleware/adminWare');
 const { default: axios } = require('axios');
 const generator = require('../helper/generatorID');
 
